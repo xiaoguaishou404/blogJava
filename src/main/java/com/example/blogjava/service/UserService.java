@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
+//业务类注解
 @Service
 @Component
 public class UserService {
+
     private UserMapper userMapper;
+
 
     @Inject
     public UserService(UserMapper userMapper) {
@@ -20,4 +23,10 @@ public class UserService {
         return userMapper.findUserById(id);
     }
 
+    @Override
+    public String toString() {
+        return "UserService{" +
+                "userMapper=" + userMapper +
+                '}';
+    }
 }

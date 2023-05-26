@@ -1,10 +1,5 @@
 package com.example.blogjava.configuration;
 
-import com.example.blogjava.mapper.UserMapper;
-import com.example.blogjava.service.OrderService;
-import com.example.blogjava.service.User;
-import com.example.blogjava.service.UserService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

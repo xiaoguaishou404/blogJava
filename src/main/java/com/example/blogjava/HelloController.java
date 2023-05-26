@@ -2,7 +2,6 @@ package com.example.blogjava;
 
 import com.example.blogjava.service.Author;
 import com.example.blogjava.service.OrderService;
-import com.example.blogjava.service.User;
 import com.example.blogjava.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 @RestController
@@ -39,7 +36,7 @@ public class HelloController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/main")
     public String index() {
         System.out.println(env.getProperty("author.hobbyList"));
         System.out.println(authorName);
