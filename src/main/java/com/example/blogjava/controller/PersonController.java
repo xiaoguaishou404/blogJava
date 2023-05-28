@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @RestController
 public class PersonController {
     @Autowired
@@ -22,7 +25,17 @@ public class PersonController {
     }
 
     @GetMapping("/person/{id}")
-    public Person getPerson(@PathVariable("id") Integer id) {
+    public Object getPerson(@PathVariable("id") Integer id) {
+
+        ExecutorService es = Executors.newFixedThreadPool(200);
+        for (int i = 0; i <= 500; i++) {
+            es.submit(new Runnable() {
+                @Override
+                public void run() {
+                    personSevice.getPersonId(id);
+                }
+            });
+        }
         return personSevice.getPersonId(id);
     }
 }

@@ -21,7 +21,7 @@ class BlogJavaApplicationTests {
 
     @Test
     public void TestSet() {
-        redisTemplate.boundValueOps("name").set("CodeGeeX");
+        redisTemplate.boundValueOps("name").set("fff");
     }
 
 
