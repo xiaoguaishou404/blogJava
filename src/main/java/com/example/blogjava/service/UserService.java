@@ -1,5 +1,6 @@
 package com.example.blogjava.service;
 
+import com.example.blogjava.entities.User;
 import com.example.blogjava.mapper.UserMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;

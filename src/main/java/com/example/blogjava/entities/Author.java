@@ -1,4 +1,4 @@
-package com.example.blogjava.service;
+package com.example.blogjava.entities;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

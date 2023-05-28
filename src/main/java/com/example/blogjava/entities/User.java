@@ -1,8 +1,8 @@
-package com.example.blogjava.service;
+package com.example.blogjava.entities;
 
 public class User {
     private String name;
-    private int id;
+    private Integer id;
 
     public String getName() {
         return name;

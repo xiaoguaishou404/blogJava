@@ -1,6 +1,6 @@
 package com.example.blogjava.mapper;
 
-import com.example.blogjava.service.User;
+import com.example.blogjava.entities.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

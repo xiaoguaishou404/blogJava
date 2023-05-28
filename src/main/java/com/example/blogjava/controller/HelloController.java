@@ -1,12 +1,15 @@
-package com.example.blogjava;
+package com.example.blogjava.controller;
 
-import com.example.blogjava.service.Author;
+import com.example.blogjava.entities.Author;
 import com.example.blogjava.service.OrderService;
 import com.example.blogjava.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -29,6 +32,19 @@ public class HelloController {
     private Environment env;
     @Autowired
     private Author author;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @GetMapping("/redis/get/{key}")
+    public Object get(@PathVariable("key") String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    @PostMapping("/redis/set/{key}/{value}")
+    public Object set(@PathVariable("key") String key, @PathVariable("value") String value) {
+        redisTemplate.opsForValue().set(key, value);
+        return "set success";
+    }
 
 
     @Inject
