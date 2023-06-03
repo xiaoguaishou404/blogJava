@@ -3,31 +3,37 @@ package com.example.blogjava.entities;
 import java.time.Instant;
 
 public class User {
-    String username;
-
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
-    }
-
-    String encryptedPassword;
     Integer id;
+    String username;
+    String encryptedPassword;
     String avatar;
     Instant createdAt;
     Instant updatedAt;
 
-    public User(String username, Integer id,String encryptedPassword) {
-        this.username = username;
-        this.encryptedPassword =encryptedPassword;
+    public User(Integer id, String username, String encryptedPassword, String avatar, Instant createdAt, Instant updatedAt) {
         this.id = id;
-        this.avatar = "";
-        this.createdAt = Instant.now();
-        this.updatedAt = Instant.now();
+        this.username = username;
+        this.encryptedPassword = encryptedPassword;
+        this.avatar = avatar;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
+//    public User( Integer id,String username,String encryptedPassword) {
+//        this.username = username;
+//        this.encryptedPassword =encryptedPassword;
+//        this.id = id;
+//        this.avatar = "";
+//        this.createdAt = Instant.now();
+//        this.updatedAt = Instant.now();
+//    }
+
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
+    }
     @Override
     public String toString() {
         return "User{" +

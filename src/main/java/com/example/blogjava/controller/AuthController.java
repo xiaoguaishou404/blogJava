@@ -35,7 +35,7 @@ public class AuthController {
     @ResponseBody
     public Object auth() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User loggedInUser = userSevice.getUserByusername(username);
+        User loggedInUser = userSevice.getUserByUsername(username);
         if (loggedInUser == null) {
             return new ResUlt("ok", "用户没有登录", false);
 
@@ -68,7 +68,7 @@ public class AuthController {
         try {
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            return new ResUlt("ok", "登陆成功", true, userSevice.getUserByusername(username));
+            return new ResUlt("ok", "登陆成功", true, userSevice.getUserByUsername(username));
         } catch (BadCredentialsException e) {
             return new ResUlt("fail", "密码不正确", false);
         }
