@@ -1,7 +1,9 @@
 package com.example.blogjava.controller;
 
+import com.example.blogjava.entities.Result;
 import com.example.blogjava.entities.User;
 import com.example.blogjava.service.UserService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,103 +39,76 @@ public class AuthController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userSevice.getUserByUsername(username);
         if (loggedInUser == null) {
-            return new ResUlt("ok", "用户没有登录", false);
-
+            return Result.failure("用户没有登录");
         } else {
-
-            return new ResUlt("ok", null, true, loggedInUser);
-
+            return new Result("ok", null, true, loggedInUser);
         }
     }
 
 
     @PostMapping("/auth/login")
     @ResponseBody
-    public ResUlt login(@RequestBody Map<String, String> nameAndPassword) {
-
+    public Result login(@RequestBody Map<String, String> nameAndPassword) {
         String username = nameAndPassword.get("username");
         String password = nameAndPassword.get("password");
         UserDetails userDetails;
         try {
-            //        取出真正的密码
+            //        取出用户
             userDetails = userSevice.loadUserByUsername(username);
         } catch (UsernameNotFoundException e) {
 //            如果用户不存在
-            return new ResUlt("fail", "用户不存在", false);
+            return Result.failure("用户不存在");
         }
-
 //        进行比对是否正确
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 //        如果错误则抛出异常
         try {
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            return new ResUlt("ok", "登陆成功", true, userSevice.getUserByUsername(username));
+            return new Result("ok", "登陆成功", true, userSevice.getUserByUsername(username));
         } catch (BadCredentialsException e) {
-            return new ResUlt("fail", "密码不正确", false);
+            return Result.failure("密码不正确");
         }
 
 
     }
 
-    private static class ResUlt {
-        String status;
-        String msg;
-        boolean isLogin;
-        Object data;
-
-        public String getStatus() {
-            return status;
+    @PostMapping("/auth/register")
+    @ResponseBody
+    public Result register(@RequestBody Map<String, String> nameAndPassword) {
+        String username = nameAndPassword.get("username");
+        String password = nameAndPassword.get("password");
+        if (username == null || password == null || username.trim().length() == 0 || password.trim().length() == 0) {
+            return Result.failure("用户名或密码不能为空");
+        }
+        if (username.length() > 15 || username.length() < 3 || password.length() > 15 || password.length() < 3) {
+            return Result.failure("用户名或密码长度不合法");
         }
 
-        public void setStatus(String status) {
-            this.status = status;
-        }
 
-        public String getMsg() {
-            return msg;
+        try {
+            userSevice.save(username, password);
+        } catch (DuplicateKeyException e) {
+            e.printStackTrace();
+            return Result.failure("用户名已经存在");
         }
+        return new Result("ok", "注册成功", false);
 
-        public void setMsg(String msg) {
-            this.msg = msg;
-        }
 
-        public boolean isLogin() {
-            return isLogin;
-        }
+    }
 
-        public void setLogin(boolean login) {
-            isLogin = login;
-        }
-
-        public Object getData() {
-            return data;
-        }
-
-        public void setData(Object data) {
-            this.data = data;
-        }
-
-        public ResUlt(String status, String msg, boolean isLogin) {
-            this(status, msg, isLogin, null);
-        }
-
-        public ResUlt(String status, String msg, boolean isLogin, Object data) {
-            this.status = status;
-            this.msg = msg;
-            this.isLogin = isLogin;
-            this.data = data;
-        }
-
-        @Override
-        public String toString() {
-            return "ResUlt{" +
-                    "status='" + status + '\'' +
-                    ", msg='" + msg + '\'' +
-                    ", isLogin=" + isLogin +
-                    ", data=" + data +
-                    '}';
+    @GetMapping("/auth/logout")
+    @ResponseBody
+    public Object logout() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User loggedInUser = userSevice.getUserByUsername(username);
+        if (loggedInUser == null) {
+            return Result.failure("用户没有登录");
+        } else {
+            SecurityContextHolder.clearContext();
+            return new Result("ok", "注销成功", false);
         }
     }
+
 
 }
