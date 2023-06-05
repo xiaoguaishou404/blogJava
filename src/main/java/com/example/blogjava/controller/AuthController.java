@@ -64,7 +64,7 @@ public class AuthController {
 
 //        进行比对是否正确
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-//如果错误则抛出异常
+//        如果错误则抛出异常
         try {
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

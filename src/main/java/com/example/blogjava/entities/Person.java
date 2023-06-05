@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 @Data
 @Table(name = "person")
+//指定数据库表名
 public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)

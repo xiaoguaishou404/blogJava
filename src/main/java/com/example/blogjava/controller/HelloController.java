@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class HelloController {
 
     private OrderService orderService;
-    private UserService userService;
+//    private UserService userService;
 
     @Value("${authorName}")
     private String authorName;
@@ -60,7 +60,7 @@ public class HelloController {
         System.out.println(Arrays.toString(authorHobbyList));
 
         System.out.println(author);
-        return this.orderService.PlaceOrder(1, "").toString();
+        return this.orderService.PlaceOrder(3, "").toString();
     }
 
 }

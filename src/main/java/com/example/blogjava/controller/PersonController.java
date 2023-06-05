@@ -21,7 +21,6 @@ public class PersonController {
     public String addPerson(Person person) {
         personSevice.add(person);
         return "add success";
-
     }
 
     @GetMapping("/person/{id}")
