@@ -7,6 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,10 +37,10 @@ public class AuthController {
     @GetMapping("/auth")
     @ResponseBody
     public Object auth() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User loggedInUser = userSevice.getUserByUsername(username);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedInUser = userSevice.getUserByUsername(authentication == null ? null : authentication.getName());
         if (loggedInUser == null) {
-            return Result.failure("用户没有登录");
+            return Result.failure("User is not logged in 用户没有登录");
         } else {
             return new Result("ok", null, true, loggedInUser);
         }
@@ -65,7 +66,7 @@ public class AuthController {
         try {
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            return new Result("ok", "登陆成功", true, userSevice.getUserByUsername(username));
+            return new Result("ok", "登录成功", true, userSevice.getUserByUsername(username));
         } catch (BadCredentialsException e) {
             return Result.failure("密码不正确");
         }
