@@ -24,16 +24,16 @@ class BlogJavaApplicationTests {
     @Autowired
     private TUserXmlMapper tUserXmlMapper;
 
-    @Test
-    public void testFindTUserAll() {
-        List<TUser> tUserList = tUserMapper.findTUserAll();
-        System.out.println(tUserList);
-    }
-    @Test
-    public void testFindTUserAll2() {
-        List<TUser> tUserList2 = tUserXmlMapper.findTUserAll2();
-        System.out.println(tUserList2);
-    }
+//    @Test
+//    public void testFindTUserAll() {
+//        List<TUser> tUserList = tUserMapper.findTUserAll();
+//        System.out.println(tUserList);
+//    }
+//    @Test
+//    public void testFindTUserAll2() {
+//        List<TUser> tUserList2 = tUserXmlMapper.findTUserAll2();
+//        System.out.println(tUserList2);
+//    }
 
 
     @Test

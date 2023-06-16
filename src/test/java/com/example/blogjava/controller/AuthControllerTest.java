@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpSession;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
@@ -52,7 +53,7 @@ class AuthControllerTest {
 
     @Test
     void returnNotLoginByDefault() throws Exception {
-        mvc.perform(get("/auth")).andExpect(status().isOk()).andExpect(result -> Assertions.assertTrue(result.getResponse().getContentAsString(Charset.defaultCharset()).contains("User is not logged in 用户没有登录")));
+        mvc.perform(get("/auth")).andExpect(status().isOk()).andExpect(result -> Assertions.assertTrue(result.getResponse().getContentAsString(Charset.defaultCharset()).contains("User is not logged in")));
 
 //            使用/auth/login登录
         Map<String, String> usernamePassword = new HashMap<>();
@@ -69,8 +70,8 @@ class AuthControllerTest {
                 .andExpect(new ResultMatcher() {
                     @Override
                     public void match(MvcResult result) throws Exception {
-                        System.out.println(result.getResponse().getContentAsString(Charset.defaultCharset()));
-                        assertTrue(result.getResponse().getContentAsString(Charset.defaultCharset()).contains("登录成功"));
+                        System.out.println(result.getResponse().getContentAsString(StandardCharsets.UTF_8));
+                        assertTrue(result.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("登录成功"));
                     }
                 })
                 .andReturn();
@@ -83,6 +84,8 @@ class AuthControllerTest {
             System.out.println(result.getResponse().getContentAsString(Charset.defaultCharset()));
             Assertions.assertTrue(result.getResponse().getContentAsString(Charset.defaultCharset()).contains("MyUser"));
         });
+        get("/auth/logout");
+
 
     }
 

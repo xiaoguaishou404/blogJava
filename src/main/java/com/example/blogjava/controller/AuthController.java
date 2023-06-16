@@ -40,7 +40,7 @@ public class AuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = userSevice.getUserByUsername(authentication == null ? null : authentication.getName());
         if (loggedInUser == null) {
-            return Result.failure("User is not logged in 用户没有登录");
+            return Result.failure("User is not logged in");
         } else {
             return new Result("ok", null, true, loggedInUser);
         }
@@ -104,7 +104,7 @@ public class AuthController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userSevice.getUserByUsername(username);
         if (loggedInUser == null) {
-            return Result.failure("用户没有登录");
+            return Result.failure("User is not logged in");
         } else {
             SecurityContextHolder.clearContext();
             return new Result("ok", "注销成功", false);
